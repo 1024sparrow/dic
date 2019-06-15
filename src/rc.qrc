@@ -8,6 +8,5 @@
         <file>pi/save.png</file>
         <file>pi/save_to_file.png</file>
         <file>style.qss</file>
-        <file>db</file>
     </qresource>
 </RCC>

@@ -8,8 +8,8 @@ int main(int argc, char **argv)
     app.setWindowIcon(QIcon(":pi/app.png"));
 
     MainWindow *mw = new MainWindow();
-//    mw->show();
-    mw->showMaximized();//FullScreen();
+    mw->show();
+    //mw->showMaximized();//FullScreen();
 
     return app.exec();
 }
