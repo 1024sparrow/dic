@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>pi/4.png</file>
         <file>pi/contains.png</file>
         <file>pi/is.png</file>
         <file>pi/starts.png</file>
