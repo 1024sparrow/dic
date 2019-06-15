@@ -1,0 +1,51 @@
+QWidget{
+	background-color:rgb(0,0,0);
+	color:rgb(255,255,255);
+	border: 2 px solid gray;
+}
+
+QLineEdit{
+	background-color:rgb(64,0,0);
+	color:rgb(255,255,255)
+}
+
+QFrame#legend{
+	border: 2px solid gray;
+	border-radius:4px;
+	background-color:rgb(220,220,220)
+}
+
+QAbstractScrollArea{
+
+	border: 1px solid gray;
+	border-radius:4px;
+	background-color:rgb(219,226,234)
+}
+
+QHeaderView{
+	border: 0px;
+	border-radius:0px;
+	background-color: rgb(0,42,56);
+	color:white
+}
+
+QTableView{
+	border: 0px;
+	border-radius:0px;
+	background-color: rgb(0,42,56);
+	color:white
+}
+
+#header_title{
+	background-color: rgb(0,42,56);
+	color: rgb(0,153,204);
+}
+
+#gameplay{
+	background-color: rgb(0,42,56);
+	color: rgb(0,153,204);
+}
+
+QSplitter::handle {
+	background-color: rgb(0,42,56);
+}

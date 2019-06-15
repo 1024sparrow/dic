@@ -1,0 +1,14 @@
+<RCC>
+    <qresource prefix="/">
+        <file>pi/4.png</file>
+        <file>pi/contains.png</file>
+        <file>pi/is.png</file>
+        <file>pi/starts.png</file>
+        <file>pi/app.png</file>
+        <file>pi/cross.png</file>
+        <file>pi/save.png</file>
+        <file>pi/save_to_file.png</file>
+        <file>style.qss</file>
+        <file>db</file>
+    </qresource>
+</RCC>
