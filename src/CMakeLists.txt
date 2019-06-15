@@ -1,11 +1,11 @@
 cmake_minimum_required(VERSION 3.10.2)
-project(dic_project CXX)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 find_package(Qt5 REQUIRED COMPONENTS Widgets Sql)
 
 set(SOURCES
-    main.cpp
+    WIN32 main.cpp
     mainwindow.cpp
     selectmodewidget.cpp
     historywidget.cpp
