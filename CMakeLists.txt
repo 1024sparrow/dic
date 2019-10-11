@@ -23,6 +23,7 @@ endif()
 
 include (GNUInstallDirs)
 message (BINDIR)
+CMAKE_INSTALL_
 message (LIBDIR)
 message (DATADIR)
 message (DATAROOTDIR)
