@@ -21,6 +21,10 @@ if(targetPlatform STREQUAL windows)
 
 endif()
 
-//123
+include (GNUInstallDirs)
+message (BINDIR)
+message (LIBDIR)
+message (DATADIR)
+message (DATAROOTDIR)
 
 add_subdirectory(src)
