@@ -22,10 +22,19 @@ if(targetPlatform STREQUAL windows)
 endif()
 
 include (GNUInstallDirs)
-message (BINDIR)
-CMAKE_INSTALL_
-message (LIBDIR)
-message (DATADIR)
-message (DATAROOTDIR)
+message (${CMAKE_INSTALL_BINDIR})
+#CMAKE_INSTALL_
+message (${CMAKE_INSTALL_LIBDIR})
+message (${CMAKE_INSTALL_DATADIR})
+message (${CMAKE_INSTALL_DATAROOTDIR})
+#message (${DESTINATION})
+
+#if(NOT WIN32 AND CMAKE_SOURCE_DIR STREQUAL CMAKE_CURRENT_SOURCE_DIR)
+#	set(CMAKE_INSTALL_PREFIX "/opt/boris.ru/${PROJECT_NAME}")
+#endif()
 
 add_subdirectory(src)
+
+#install(TARGETS src
+#	DESTINATION ${CMAKE_INSTALL_BINDIR}
+#)

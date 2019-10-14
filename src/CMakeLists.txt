@@ -13,3 +13,9 @@ set(SOURCES
 qt5_add_resources (RCC_SOURCES rc.qrc)
 add_executable(dic ${SOURCES} ${RCC_SOURCES})
 target_link_libraries(dic Qt5::Core Qt5::Widgets Qt5::Sql)
+
+install(
+	TARGETS dic
+	#DESTINATION ${CMAKE_INSTALL_PREFIX}
+	DESTINATION ${CMAKE_INSTALL_BINDIR}
+)
