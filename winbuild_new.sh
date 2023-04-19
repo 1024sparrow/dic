@@ -21,7 +21,6 @@ do
 	fi
 	[[ "$tmp" =~ ^[[:alpha:]] ]] || ERROR "Цель сборки под Винду \"$tmp\" имеет недопустимое имя. Прервано"
 done
-echo "boris debug: ${build_targets[@]}"
 
 function inList {
 	local i state=0 target
@@ -59,7 +58,7 @@ function findLibByName {
 # 2. variable name to store
 
 	local i iSrc
-	for iSrc in /usr/x86_64-w64-mingw32 /usr
+	for iSrc in /usr/x86_64-w64-mingw32 /usr /
 	do
 		for i in $(find $iSrc -name $1 2> /dev/null)
 		do
@@ -72,9 +71,26 @@ function findLibByName {
 
 if [ "$INDOCKER" == true ]
 then
+	for i in $(find / -name qmake 2> /dev/null | grep mingw)
+	do
+		$i --version
+	done
 	cd /opt/src
 	cd winbuild
-	#x86_64-w64-mingw32-cmake .. && make || ERROR 'Ошибка сборки'
+	x86_64-w64-mingw32-cmake .. || ERROR 'Произошла ошибка на этапе cmake'
+	if [ ${#build_targets[@]} -eq 0 ]
+	then
+		make || ERROR 'Не удалось собрать проект'
+	else
+		for i in ${build_targets[@]}
+		do
+			if [ "${i:0:1}" == '#' ]
+			then
+				continue
+			fi
+			make $i || ERROR "Не удалось собрать цель \"$i\""
+		done
+	fi
 	for iExe in $(find . -name *.exe)
 	do
 		echo "
