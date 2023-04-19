@@ -65,16 +65,7 @@ then
 	for iExe in $(find . -name *.exe)
 	do
 		echo "
-	$iExe"
-		#if inList qwe "kj qq qe"
-		#then
-		#	echo YES
-		#else
-		#	echo NO
-		#fi
-
-
-
+$iExe:"
 		n=0
 		stack=($(getDependencies $iExe))
 		while [ ${#stack[@]} -gt 0 ]
@@ -84,7 +75,7 @@ then
 			#	echo "oops..."
 			#	exit 1
 			#fi
-			n=$((n+1))
+			n+=1
 
 			parent=${stack[0]}
 			stack=(${stack[@]:1})
@@ -95,26 +86,20 @@ then
 			else
 				dependList=(${dependList[@]} $parent)
 			fi
-#
+
 			if ! findLibByName $parent tmp
 			then
-				echo "Путь до библиотеки \"$parent\" не найден"
+				#echo "Путь до библиотеки \"$parent\" не найден"
+				echo "  * $parent (не найдена)"
 				continue
 			fi
-			echo "boris: $parent $tmp"
-			#stack=($(getDependencies $tmp) ${stack[@]})
-			for i in $(getDependencies $tmp)
-			do
-				if inList $i "${dependList[@]}"
-				then
-					continue
-				else
-					stack=($i ${stack[@]})
-				fi
-			done
+			#echo "boris: $parent $tmp"
+			echo "  * $tmp"
+			stack=($(getDependencies $tmp) ${stack[@]})
 		done
 	done
-	echo "FINISHED"
+	echo "FINISHED
+"
 else
 	pushd $(dirname $0) > /dev/null
 		docker run --rm -it -v $PWD:/opt/src -e INDOCKER=true burningdaylight/mingw-arch:qt /bin/bash /opt/src/winbuild_new.sh
