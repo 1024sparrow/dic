@@ -4,11 +4,24 @@
 declare -a dependList stack
 declare parent tmp
 declare -i n=0
+declare -a build_targets
 
 function ERROR {
 	echo "Error: $1"
 	exit 1
 }
+
+[ -r $(dirname $0)/winbuild_targets ] || ERROR 'файл winbuild_targets не найден (или не доступен для чтения)'
+build_targets=($(cat $(dirname $0)/winbuild_targets))
+for tmp in ${build_targets[@]}
+do
+	if [ "${tmp:0:1}" == '#' ] # оставляем возможность комментировать цели сборки
+	then
+		continue
+	fi
+	[[ "$tmp" =~ ^[[:alpha:]] ]] || ERROR "Цель сборки под Винду \"$tmp\" имеет недопустимое имя. Прервано"
+done
+echo "boris debug: ${build_targets[@]}"
 
 function inList {
 	local i state=0 target
@@ -66,17 +79,9 @@ then
 	do
 		echo "
 $iExe:"
-		n=0
 		stack=($(getDependencies $iExe))
 		while [ ${#stack[@]} -gt 0 ]
 		do
-			#if [ $n -gt 200 ]
-			#then
-			#	echo "oops..."
-			#	exit 1
-			#fi
-			n+=1
-
 			parent=${stack[0]}
 			stack=(${stack[@]:1})
 
@@ -89,7 +94,6 @@ $iExe:"
 
 			if ! findLibByName $parent tmp
 			then
-				#echo "Путь до библиотеки \"$parent\" не найден"
 				echo "  * $parent (не найдена)"
 				continue
 			fi
