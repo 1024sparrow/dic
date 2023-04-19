@@ -14,7 +14,6 @@ function inList {
 	local i state=0 target
 	for i in $@
 	do
-		#echo "<$i>"
 		if [ $state == 0 ]
 		then
 			state=1
@@ -31,23 +30,14 @@ function inList {
 
 function getDependencies {
 	local i
-	local -a blackList=(
-		KERNEL32.dll
-		GDI32.dll
-		SHELL32.dll
-		USER32.dll
-		ole32.dll
-	)
 	for i in $(strings $1 | grep -i '\.dll$' | grep -i '^[[:alpha:]]')
 	do
-		if inList $i "${blackList[@]} $1" > /dev/null
+		if [ "$i" == "$1" ]
 		then
 			continue
 		fi
 		echo $i
 	done
-	#strings $1 | grep -i '[[:alpha:]]+.*\.dll$'
-	#strings $1 | grep -i '^[[:alpha:]]+[.]*\.dll$'
 }
 
 function findLibByName {
@@ -55,11 +45,10 @@ function findLibByName {
 # 1. target library name
 # 2. variable name to store
 
-	echo "~~ findLibByName $1 ~~"
 	local i iSrc
 	for iSrc in /usr/x86_64-w64-mingw32 /usr
 	do
-		for i in $(find $iSrc -name $1)
+		for i in $(find $iSrc -name $1 2> /dev/null)
 		do
 			eval "$2=$i"
 			return 0
@@ -90,27 +79,20 @@ then
 		stack=($(getDependencies $iExe))
 		while [ ${#stack[@]} -gt 0 ]
 		do
-			if [ $n -gt 200 ]
-			then
-				echo "oops..."
-				exit 1
-			fi
+			#if [ $n -gt 200 ]
+			#then
+			#	echo "oops..."
+			#	exit 1
+			#fi
 			n=$((n+1))
+
 			parent=${stack[0]}
 			stack=(${stack[@]:1})
 
-			#if [ "$parent" == Qt5Widgets.dll ]
-			#then
-			#	continue
-			#fi
-
-			echo "if inList $parent \"${dependList[@]}\""
 			if inList $parent "${dependList[@]}"
 			then
-				echo '[YES]'
 				continue
 			else
-				echo '[NO]'
 				dependList=(${dependList[@]} $parent)
 			fi
 #
