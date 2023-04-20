@@ -71,11 +71,17 @@ function findLibByName {
 
 if [ "$INDOCKER" == true ]
 then
+	# Выводим версию Qt
 	for i in $(find / -name qmake 2> /dev/null | grep mingw)
 	do
 		$i --version
 	done
 	cd /opt/src
+	if [ -d winbuild ]
+	then
+		rm -rf winbuild
+	fi
+	mkdir winbuild
 	cd winbuild
 	x86_64-w64-mingw32-cmake .. || ERROR 'Произошла ошибка на этапе cmake'
 	if [ ${#build_targets[@]} -eq 0 ]
@@ -91,10 +97,15 @@ then
 			make $i || ERROR "Не удалось собрать цель \"$i\""
 		done
 	fi
+	mkdir bin || ERROR 'Не удалось создать директорию bin в сборочной-под-винду директории (winbuild)'
 	for iExe in $(find . -name *.exe)
 	do
 		echo "
 $iExe:"
+		appName=$(basename "$iExe")
+		appName=${appName:0:-4} # отрезаем ".exe" в конце имени программы
+		mkdir bin/$appName || ERROR "Не удалось создать диркторию под бинарник \"$appName\ (источник - \"$iExe\")"
+		cp $iExe bin/$appName/
 		stack=($(getDependencies $iExe))
 		while [ ${#stack[@]} -gt 0 ]
 		do
@@ -115,6 +126,7 @@ $iExe:"
 			fi
 			#echo "boris: $parent $tmp"
 			echo "  * $tmp"
+			cp "$tmp" bin/$appName/
 			stack=($(getDependencies $tmp) ${stack[@]})
 		done
 	done
